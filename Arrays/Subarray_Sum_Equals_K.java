@@ -41,6 +41,8 @@ Therefore, number of k-sum-subarrays ending at j = number of indices i1,i2...upt
 Logic:
 Store each cumulative sum and its number of occurences in a hashmap
 While Iterating, if curSum-k exists in hashmap, then count += map.get(curSum-k)
+
+time: O(n), space: O(n)
 */
 class Solution2 {
     public int subarraySum(int[] nums, int k) {
