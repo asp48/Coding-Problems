@@ -60,7 +60,10 @@ class Solution {
 }
 
 /*
-Using backtracking.
+In the previous solution, insertion and cloning lists every time can slow down the performance. 
+To avoid cloning multiple times, we can backtrack to update the same list.
+
+Approach 2: Using backtracking.
 Recursion call looks as below.
       ------------------  
      /        |          \
@@ -70,10 +73,10 @@ Recursion call looks as below.
  2   3      1   3        1   2
  |   |      |   |        |   |
  3   2      3   1        2   1
- When we reach the leaf node i.e CurrentPermutationList.size()==nums.length, we add the list to final result.
+ When we reach the leaf node i.e CurrentPermutationList.size()==nums.length, we append a copy of the list to final result.
  Each path in the above recursion tree contributes to a unique permutation list
 */
-class Solution {
+class Solution2 {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         helper(nums, result, new ArrayList<>(), new boolean[nums.length]);
