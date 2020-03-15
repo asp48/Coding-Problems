@@ -86,6 +86,7 @@ class Solution {
                 low = mid+1;
             }
         }
+        //loop breaks when low>high, return the last recorded index
         return index;
     }
 }
