@@ -24,6 +24,9 @@ In case of simple binary search, we switch blocks based on whether target is gre
 To apply binary search for this problem, after finding middle index, we have to decide in which part falling dip is present. 
 1. If the dip is on right side, it implies left side is a plain increasing subarray and if the target is in the range of that subarray, then we move to left, otherwise move to right.
 2. if the dip is on left side, it implies right side is a plain increasing subarray and if the target is in the range of that subarray, then we move to right, otherwise move to left.
+
+Time: O(log n)
+Space: O(1)
 */
 class Solution {
     public int search(int[] nums, int target) {
