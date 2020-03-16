@@ -109,3 +109,58 @@ class Solution2 {
         }
     }
 }
+
+/*
+[1,2,3,4]
+keeping 1 fixed, recurse on [2,3,4]
+    keeping 1,2 fixed, recurse on [3,4]
+        keeping 1,2,3 fixed, recurse on [4] // reached end: print 1,2,3,4
+        keeping 1,2,4 fixed, recurse on [3] // reached end: print 1,2,4,3
+    keeping 1,3 fixed, recurse on [2,4]
+        keeping 1,3,2 fixed, recurse on [4] // reached end: print 1,3,2,4
+        keeping 1,3,4 fixed, recurse on [2] // reached end: print 1,3,4,2
+    keeping 1,4 fixed, recurse on [2,3]
+        keeping 1,4,2 fixed, recurse on [3] // reached end: print 1,4,2,3
+        keeping 1,4,3 fixed, recurse on [2] // reached end: print 1,4,3,2
+keeping 2 fixed, recurse on [1,3,4]
+... and so on.
+*/
+class Solution3 {
+    List<List<Integer>> result = null;
+    public List<List<Integer>> permute(int[] nums) {
+        result = new ArrayList<>();
+        helper(nums, 0);
+        return result;
+    }
+    
+    private void helper(int[] nums, int start){
+        // reached end, add nums to result
+        if(start==nums.length-1){
+            result.add(convertToList(nums));
+            return;
+        }
+        for(int j=start;j<nums.length;j++){
+            // fix nums[j] by swapping it with start index
+            swap(nums, start, j);
+            // recurse on (start+1, nums.length-1)
+            helper(nums, start+1);
+            // restore back to original state
+            swap(nums, start, j);
+        }
+    }
+    
+    // convets array to list
+    private List<Integer> convertToList(int[] nums){
+        List<Integer> list = new ArrayList<>();
+        for(int num: nums){
+            list.add(num);
+        }
+        return list;
+    }
+    
+    private void swap(int[] nums, int i, int j){
+        int t = nums[i];
+        nums[i] = nums[j];
+        nums[j] = t;
+    }
+}
