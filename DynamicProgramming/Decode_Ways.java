@@ -74,20 +74,20 @@ Space: O(N)
 */
 class Solution2 {
     public int numDecodings(String s) {
-        Integer[] dp = new Integer[s.length()+1];
+        Integer[] dp = new Integer[s.length() + 1];
         char[] ca = s.toCharArray();
         dp[ca.length] = 1;
-        for(int i=ca.length-1;i>=0;i--){
-            int currChar = ca[i]-'0';
-            if(currChar==0){
+        for (int i = ca.length - 1; i >= 0; i--) {
+            int currChar = ca[i] - '0';
+            if (currChar == 0) {
                 dp[i] = 0;
             } else {
-                dp[i] = dp[i+1];
-            }
-            if(i < ca.length-1){
-                int nextChar = ca[i+1]-'0';
-                if(currChar==1 || (currChar==2 && nextChar >= 0 && nextChar <= 6)){
-                    dp[i] += dp[i+2];
+                dp[i] = dp[i + 1];
+                if (i < ca.length - 1) {
+                    int nextChar = ca[i + 1] - '0';
+                    if (currChar == 1 || (currChar == 2 && nextChar >= 0 && nextChar <= 6)) {
+                        dp[i] += dp[i + 2];
+                    }
                 }
             }
         }
