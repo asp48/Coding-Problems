@@ -24,6 +24,8 @@ Use a Singly Linked List internally to implement a stack.
 When values are pushed to the stack, they are internally added as new nodes at the front of the list.
 When values are pooped from the stack, nodes are internally removed from the front of the list.
 Store the min element along with each node, such that at any time, node.min gives the minimum value from that node till the end of the list. So when getMin is called on the stack, we just have to return head.min
+
+All operations work in constant time.
 */
 class Node {
     Node next;
