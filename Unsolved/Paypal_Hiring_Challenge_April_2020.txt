@@ -22,7 +22,7 @@ Optimal Max Sum: 74
 
 Ouput: 9
 
-My Solution: O(2*nlogn + 2*n)
+My Solution: O(2*nlogn + 2*n), Got TLE for last 5 testcases
 Find the original sum without any rearranging
 Create a count array to store number of times a particular index gets called.
 Sort given array and count array in descending order
@@ -52,7 +52,7 @@ After painting: 2,2,2,2
 Ouput:
 156
 
-My Solution: O(M^N)
+My Solution: O(M^N) 
 It may be optimized by using memorization. But I did not find any overlapping instance. So there might be problem with my logic.
 Backtracking:
 Base condition:
