@@ -1,0 +1,67 @@
+Maximum Sum by Rearranging given array
+Given an array of integers of size N, and K subarray index ranges containig x,y where x and y are both inclusive, first you have to find the sum of all these K subarrays. Then rearrange the given array optimally such that the new sum of K subarrays is maximum. Ouput is the gain from rearranging array optimally which can be calculatd as the difference between new sum and original sum.
+Constraints:
+1 < N,K,Ai < 10^5
+Ex:
+Array starts with index 1
+Input:
+N = 6, K = 6
+Array: 3,2,5,6,2,6
+Ranges:
+1 2 
+1 5
+2 6
+6 6
+2 2
+3 5
+
+Intermediate results:
+Original Sum: 65
+Rearranged array : [2,6,6,5,3,2]
+Optimal Max Sum: 74
+
+Ouput: 9
+
+My Solution: O(2*nlogn + 2*n)
+Find the original sum without any rearranging
+Create a count array to store number of times a particular index gets called.
+Sort given array and count array in descending order
+Multiply both arrays index by index and add the products. This is the new optimal sum
+Output: New optimal sum - original sum
+
+
+Painting N buildings
+There are M types of paints and N buildings. A speciality of this area K is defined by the number of same color building which are side by side. Ex: If 7 building are painted as 1,2,2,3,4,4,4, then k = 4 ({1},{2,2},{3},{4,4,4}). There is a cost involved in painting ith building with jth color and some of the buildings are already painted and they should not be painted again. If K is given, find the minimum cost required to paint all the unpainted buildings such that at the end speciality becomes K. Return -1 if it is not possible to paint keeping speciality = k.
+Constraints:
+1 < M,N,K < 100
+1 < Cij < 10^5
+Ex:
+Paints start with value 1
+Input:
+N=4,M=2,K=1
+Array: 0,0,0,2 (0 implies unpainted building)
+Cost:
+100 83
+70 13
+40 10
+10 50
+
+Intermediate Results:
+After painting: 2,2,2,2
+
+Ouput:
+156
+
+My Solution: O(M^N)
+It may be optimized by using memorization. But I did not find any overlapping instance. So there might be problem with my logic.
+Backtracking:
+Base condition:
+When reached to the end, if speciality == k return the current cost accumulated, else return Integer.MAX_VALUE
+If speciality at any time is greater than k, return Integer.MAX_VALUE
+Logic:
+If value at ith index is not 0, recurse for i+1
+for j=1 to M
+	tmpCost = min(tmpCost, find minimum cost recursively by painting this ith building with jth color) 
+cost = tmpCost
+return cost
+If cost is Integer.MAX_VALUE, then ans = -1, else ans = cost
