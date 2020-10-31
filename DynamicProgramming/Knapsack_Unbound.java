@@ -92,13 +92,11 @@ class Solution{
     
     static int singleArrDp(int N, int W, int[] val, int[] wt){
         int[] dp = new int[W+1];
-        for(int i=1;i<=W;i++){
-            dp[i] = (wt[0]<=i)?(i/wt[0])*val[0]:0;
-        }
-        for(int i=1;i<N;i++){
+        for(int i=0;i<N;i++){
             for(int j=1;j<=W;j++){
-                int include = (wt[i]<=j)? val[i] + dp[j-wt[i]]:0;
-                dp[j] = Math.max(dp[j], include);
+                if(wt[i]<=j){
+                    dp[j] = Math.max(dp[j], val[i] + dp[j-wt[i]]);
+                }
             }
         }
         return dp[W];
