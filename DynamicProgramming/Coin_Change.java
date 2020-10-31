@@ -36,4 +36,67 @@ class Solution {
         }
         return dp[amount]>amount?-1:dp[amount];
     }
+    
+    public int minCoins(int coins[], int M, int V) 
+	{ 
+	    //int ans = singleArray(coins, V, M);
+	    //int ans = bottomUpDp(coins, V, coins.length-1, new Integer[M][V+1]);
+	    //int ans = bottomUpDp2(coins, V, M, new Integer[V+1]);
+	    int ans = singleArray2(coins, V, M);
+	    return ans == Integer.MAX_VALUE?-1:ans;
+	} 
+	
+	public static int singleArray(int[] coins, int tsum, int n){
+	    int[] dp = new int[tsum+1];
+	    for(int i=1;i<=tsum;i++){
+	        dp[i] = Integer.MAX_VALUE;
+	    }
+	    for(int i=0;i<n;i++){
+	        for(int j=1;j<=tsum;j++){
+	           if(coins[i]<=j && dp[j-coins[i]]!=Integer.MAX_VALUE){
+	               dp[j] = Math.min(dp[j], 1 + dp[j-coins[i]]);
+	           }
+	        }
+	    }
+	    return dp[tsum];
+	}
+	
+	public static int bottomUpDp(int[] coins, int tsum, int i, Integer[][] dp){
+	    if(i==-1){
+	        return Integer.MAX_VALUE;
+	    }
+	    if(tsum==0){
+	        return 0;
+	    }
+	    if(dp[i][tsum]!=null){
+	        return dp[i][tsum];
+	    }
+	    int include = Integer.MAX_VALUE;
+	    if(coins[i]<=tsum){
+	        include = bottomUpDp(coins, tsum-coins[i], i, dp);
+	        include = include == Integer.MAX_VALUE? include:1+include;
+	    }
+	    int exclude = bottomUpDp(coins, tsum, i-1, dp);
+	    dp[i][tsum] = Math.min(include, exclude);
+	    return dp[i][tsum];
+	}
+	
+	public static int bottomUpDp2(int[] coins, int tsum, int n, Integer[] dp){
+	    if(tsum==0){
+	        return 0;
+	    }
+	    if(dp[tsum]!=null){
+	        return dp[tsum];
+	    }
+	    int min = Integer.MAX_VALUE;
+	    for(int i=0;i<n;i++){
+	        if(coins[i]<=tsum){
+	            int include = bottomUpDp2(coins, tsum-coins[i], n, dp);
+	            include = include == Integer.MAX_VALUE? include: 1+include;
+	            min = Math.min(min, include);
+	        }
+	    }
+	    dp[tsum] = min;
+	    return min;
+	}
 }
