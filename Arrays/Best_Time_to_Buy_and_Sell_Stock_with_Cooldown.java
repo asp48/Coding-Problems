@@ -34,3 +34,47 @@ class Solution {
         return Math.max(profitDayBeforeYesterday, profitYesterday);
     }
 }
+
+/*
+Other approaches
+*/
+class Solution {
+    public int maxProfit(int[] prices) {
+        //return getProfit(prices, true, 0);
+        return arrayDp(prices);
+    }
+    
+    public int getProfit(int[] prices, boolean buy, int i){
+        if(i>=prices.length){
+            return 0;
+        }
+        if(buy){
+            int buy_now = getProfit(prices, false, i+1)-prices[i];
+            int wait_today = getProfit(prices, true, i+1);
+            return Math.max(buy_now, wait_today);
+        } else {
+            int sell_today = getProfit(prices, true, i+2)+prices[i];
+            int hold_today = getProfit(prices, false, i+1);
+            return Math.max(sell_today, hold_today);
+        }
+    }
+    
+    public int arrayDp(int[] prices){
+        int[][] dp = new int[prices.length][2];
+        if(prices.length<=1){
+            return 0;
+        }
+        if(prices.length==2){
+            return Math.max(prices[1]-prices[0], 0);
+        }
+        dp[0][0] = -prices[0];
+        dp[1][0] = Math.max(-prices[0], -prices[1]);
+        dp[0][1] = 0;
+        dp[1][1] = Math.max(0, prices[1]-prices[0]);
+        for(int i=2;i<prices.length;i++){
+            dp[i][0] = Math.max(dp[i-2][1]-prices[i], dp[i-1][0]);
+            dp[i][1] = Math.max(dp[i-1][0]+prices[i], dp[i-1][1]);
+        }
+        return dp[prices.length-1][1];
+    }
+}
