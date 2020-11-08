@@ -63,3 +63,26 @@ class Solution {
         return count[0][n-1];
     }
 }
+
+/*
+Using expand around center approach.
+Time: O(n^2)
+Space: O(1)
+*/
+class Solution {
+    public int countSubstrings(String s) {
+        int n = s.length();
+        char[] ca = s.toCharArray();
+        int count = 0;
+        for(int center=0; center<2*n-1; center++){
+            int left = center/2;
+            int right = left + center%2;
+            while(left>=0 && right<n && ca[left]==ca[right]){
+                left--;
+                right++;
+                count++;
+            }
+        }
+        return count;
+    }
+}
