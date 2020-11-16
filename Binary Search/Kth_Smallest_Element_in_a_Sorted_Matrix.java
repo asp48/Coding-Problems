@@ -73,28 +73,81 @@ class Solution {
 /*
 Using Heap
 Time: O(klogN)
-19 ms, faster than 37.78%
+16 ms, faster than 36.41%
 */
+class Node{
+    int row;
+    int col;
+    public Node(int row, int col){
+        this.row=row;
+        this.col=col;
+    }
+}
 class Solution2 {
     public int kthSmallest(int[][] matrix, int k) {
-        int n = matrix.length;
-        // store element indices (i,j) in the priority queue
-        PriorityQueue<int[]> heap = new PriorityQueue<>((a, b)->(matrix[a[0]][a[1]] - matrix[b[0]][b[1]]));
-        // insert all the elements from the first column into the heap
-        for(int i=0;i<n;i++){
-            heap.add(new int[]{i,0});
+        PriorityQueue<Node> minHeap = new PriorityQueue<>((n1,n2)->(matrix[n1.row][n1.col]-matrix[n2.row][n2.col]));
+        
+        for(int i=0;i<matrix.length && i<k;i++){
+            minHeap.add(new Node(i,0));
         }
-        // loop until kth smallest element gets inserted into the heap.
-        while(k>1){
-            int[] e = heap.poll();
-            k--;
-            // add next element on the right to the heap
-            if(e[1]+1 < n) {
-                heap.add(new int[]{e[0], e[1]+1});
+        int count=0;
+        while(!minHeap.isEmpty()){
+            Node node = minHeap.poll();
+            if (++count == k){
+                return matrix[node.row][node.col];
+            }
+            if(node.col+1<matrix[node.row].length){
+                minHeap.add(new Node(node.row, node.col+1));
             }
         }
-        // pop the smallest element from heap which is the required element
-        int[] e = heap.poll();
-        return matrix[e[0]][e[1]];
+        return -1;
+    }
+}
+
+/*
+In the solution1, it is difficult to understand how 'low' finally converges to an element in the matrix.
+Here is a more understandable version of solution1.
+*/
+class Solution3 {
+    public int kthSmallest(int[][] matrix, int k) {
+        int n = matrix.length, low = matrix[0][0], high = matrix[n-1][n-1];
+        // if we continue, event after low==high, then it will go into an infinite loop.
+        // Note that, here we are dealing with values, not indices.
+        while(low<high){
+            int mid = low + (high-low)/2;
+            int[] smallLargePair = {matrix[0][0], matrix[n-1][n-1]};
+            // get count of elements smaller than or equal to mid
+            int count = getSmallerNumbersCount(matrix, mid, smallLargePair);
+            // we have k elements less than or equal to mid
+            if(count==k){
+                // return the largest number smaller than or equal to mid
+                return smallLargePair[0];
+            } else if(count<k){
+                // explore bottom right, set low to smallest number greater than mid
+                low = smallLargePair[1];
+            } else {
+                // explore top left, set high to largest number smaller than or equal to mid 
+                high = smallLargePair[0];
+            }
+        }
+        // return low if low==high. This happens when abs(k-count) are all same numbers.
+        return low;
+    }
+    
+    public int getSmallerNumbersCount(int[][] matrix, int target, int[] smallLargePair){
+        int n = matrix.length, i=n-1, j=0, count=0;
+        while(i>=0 && j<n){
+            if(matrix[i][j]>target){
+                // store the smallest number in the matrix that is greater than the target
+                smallLargePair[1] = Math.min(smallLargePair[1], matrix[i][j]);
+                i--;
+            } else {
+                count+=(i+1);
+                // store the largest number in the matrix that is smaller than the target
+                smallLargePair[0] = Math.max(smallLargePair[0], matrix[i][j]);
+                j++;
+            }
+        }
+        return count;
     }
 }
