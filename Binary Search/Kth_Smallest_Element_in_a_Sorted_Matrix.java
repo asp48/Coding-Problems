@@ -27,7 +27,7 @@ Pick a middle value and find the number of values smaller than this choosen valu
 Interesting thought!!
 Though the middle number may not be present in the given matrix, it will slowly converge and final result is a number that is present in the matrix. Therefore, we cannot stop the binary search, even if we have found a mid value, which is >= to K-1 elements in the matrix.
 
-Time: O(N*log(diff(lastValue, firstVal))) -- Not sure
+Time: O(N*log(diff(lastValue, firstVal)))
 1 ms, faster than 83.80%
 */
 class Solution {
@@ -107,6 +107,9 @@ class Solution2 {
 /*
 In the solution1, it is difficult to understand how 'low' finally converges to an element in the matrix.
 Here is a more understandable version of solution1.
+
+Time: O(N*log(max-min))
+Space: O(1)
 */
 class Solution3 {
     public int kthSmallest(int[][] matrix, int k) {
