@@ -38,7 +38,10 @@ nums[i] is sorted in non-decreasing order.
 */
 
 /*
-The solution is similar to using heap for merging m-sorted arrays.
+The solution is similar to using heap for merging k-sorted arrays.
+
+Time: O(N*log K), N=total number of elements from all k arrays
+Space: O(K), k=number of arrays
 */
 class Node{
     int arrayIndex;
